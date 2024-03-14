@@ -6,7 +6,7 @@ pipeline {
             steps {
                 // checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'Sahaj', url: 'https://github.com/Sahajshj/Jenkins-Project']])
                 echo 'Initiating the code build processss'
-            }
+            } 
         }
 
         stage('Unit and Integration Tests') {
