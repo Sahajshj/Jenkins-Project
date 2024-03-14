@@ -8,7 +8,7 @@ pipeline {
                 echo 'Initiating the code build processss'
             } 
         }
-
+ 
         stage('Unit and Integration Tests') {
             steps {
                 echo 'Conducting unit and integration tests: Succeeded'
