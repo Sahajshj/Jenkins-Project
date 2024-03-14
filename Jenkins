@@ -1,0 +1,77 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                // checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'Sahaj', url: 'https://github.com/Sahajshj/Jenkins-Project']])
+                echo 'Initiating the code build process'
+            }
+        }
+
+        stage('Unit and Integration Tests') {
+            steps {
+                echo 'Conducting unit and integration tests: Succeeded'
+            }
+            post {
+                success {
+                    mail to: 'ssahajpal97@gmail.com',
+                        subject: 'Unit and Integration Tests Successful',
+                        body: 'Both integration and unit tests have passed. Review logs for more details.'
+                        //attachLog: true
+                }
+                failure {
+                    mail to: 'ssahajpal97@gmail.com',
+                        subject: 'Unit and Integration Tests Failed',
+                        body: 'Both integration and unit tests have failed. Review logs for more details.'
+                        //attachLog: true
+                }
+             }
+        }
+        
+
+        stage('Code Analysis') {
+            steps {
+                echo 'Performing code analysis'
+            }
+        }
+
+        stage('Security Scan') {
+            steps {
+                echo 'Initiating security checks'
+            }
+            post {
+                success {
+                    mail to: 'ssahajpal97@gmail.com',
+                        subject: 'Security Scan Completed Successfully',
+                        body: 'Security scans completed successfully. Review logs for more details.'
+                        //attachLog: true
+                }
+                failure {
+                    mail to: 'ssahajpal97@gmail.com',
+                        subject: 'Security Scan Failed',
+                        body: 'Security scans have failed. Review logs for more details.'
+//                        attachLog: true
+                }
+             }
+        }
+
+        stage('Deploy to Staging') {
+            steps {
+                echo 'Deploying to staging environment'
+            }
+        }
+
+        stage('Integration Tests on Staging') {
+            steps {
+                echo 'Conducting integration tests on staging environment'
+            }
+        }
+
+        stage('Deploy to Production') {
+            steps {
+                echo 'Deploying to production environment...'
+            }
+        }
+    }
+}
