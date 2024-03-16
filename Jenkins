@@ -4,74 +4,81 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                // checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'Sahaj', url: 'https://github.com/Sahajshj/Jenkins-Project']])
-                echo 'Initiating the code build processss....'
-            } 
+                // Assuming Maven is used for build automation
+                sh 'mvn clean package'
+                echo 'Code build process initiated...'
+            }
         }
      
-   
         stage('Unit and Integration Tests') {
             steps {
-                echo 'Conducting unit and integration tests: Succeeded'
+                // Assuming JUnit for unit tests and Selenium for integration tests
+                sh 'mvn test'
+                echo 'Unit and integration tests executed: Succeeded'
             }
             post {
                 success {
                     mail to: 'ssahajpal97@gmail.com',
                         subject: 'Unit and Integration Tests Successful',
                         body: 'Both integration and unit tests have passed. Review logs for more details.'
-                        //attachLog: true
                 }
                 failure {
                     mail to: 'ssahajpal97@gmail.com',
                         subject: 'Unit and Integration Tests Failed',
                         body: 'Both integration and unit tests have failed. Review logs for more details.'
-                        //attachLog: true
                 }
-             }
+            }
         }
-        
 
         stage('Code Analysis') {
             steps {
-                echo 'Performing code analysis'
+                // Assuming SonarQube for code analysis
+                sh 'sonar-scanner'
+                echo 'Code analysis performed'
             }
         }
 
         stage('Security Scan') {
             steps {
-                echo 'Initiating security checks'
+                // Assuming OWASP ZAP for security scanning
+                sh 'zap-cli --quick-scan --spider --self-contained --output /zap/wrk/'
+                echo 'Security scan initiated'
             }
             post {
                 success {
                     mail to: 'ssahajpal97@gmail.com',
                         subject: 'Security Scan Completed Successfully',
                         body: 'Security scans completed successfully. Review logs for more details.'
-                        //attachLog: true
                 }
                 failure {
                     mail to: 'ssahajpal97@gmail.com',
                         subject: 'Security Scan Failed',
                         body: 'Security scans have failed. Review logs for more details.'
-//                        attachLog: true
                 }
-             }
+            }
         }
 
         stage('Deploy to Staging') {
             steps {
-                echo 'Deploying to staging environment'
+                // Assuming deployment to AWS EC2 instance
+                sh 'aws deploy <options>'
+                echo 'Deployed to staging environment'
             }
         }
 
         stage('Integration Tests on Staging') {
             steps {
-                echo 'Conducting integration tests on staging environment'
+                // Assuming running integration tests on staging environment
+                sh 'mvn verify'
+                echo 'Integration tests on staging executed'
             }
         }
 
         stage('Deploy to Production') {
             steps {
-                echo 'Deploying to production environment...'
+                // Assuming deployment to AWS EC2 instance
+                sh 'aws deploy <options>'
+                echo 'Deployed to production environment'
             }
         }
     }
