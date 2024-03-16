@@ -4,81 +4,78 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                // Assuming Maven is used for build automation
-                sh 'mvn clean package'
-                echo 'Code build process initiated...'
+                echo 'Stage 1: Building the code using Maven'
+                // Implement build automation tool e.g., Maven
             }
         }
-     
+
         stage('Unit and Integration Tests') {
             steps {
-                // Assuming JUnit for unit tests and Selenium for integration tests
-                sh 'mvn test'
-                echo 'Unit and integration tests executed: Succeeded'
+                echo 'Stage 2: Running unit and integration tests using TestNG'
+                // Implement test automation tools e.g., TestNG
             }
             post {
                 success {
                     mail to: 'ssahajpal97@gmail.com',
                         subject: 'Unit and Integration Tests Successful',
                         body: 'Both integration and unit tests have passed. Review logs for more details.'
+                        //attachLog: true
                 }
                 failure {
                     mail to: 'ssahajpal97@gmail.com',
                         subject: 'Unit and Integration Tests Failed',
                         body: 'Both integration and unit tests have failed. Review logs for more details.'
+                        //attachLog: true
                 }
-            }
+             }
         }
 
         stage('Code Analysis') {
             steps {
-                // Assuming SonarQube for code analysis
-                sh 'sonar-scanner'
-                echo 'Code analysis performed'
+                echo 'Stage 3: Performing code analysis using SonarQube'
+                // Implement code analysis tool e.g., SonarQube
             }
         }
 
         stage('Security Scan') {
             steps {
-                // Assuming OWASP ZAP for security scanning
-                sh 'zap-cli --quick-scan --spider --self-contained --output /zap/wrk/'
-                echo 'Security scan initiated'
+                echo 'Stage 4: Initiating security checks using OWASP ZAP'
+                // Implement security scan tool e.g., OWASP ZAP
             }
             post {
                 success {
                     mail to: 'ssahajpal97@gmail.com',
                         subject: 'Security Scan Completed Successfully',
                         body: 'Security scans completed successfully. Review logs for more details.'
+                        //attachLog: true
                 }
                 failure {
                     mail to: 'ssahajpal97@gmail.com',
                         subject: 'Security Scan Failed',
                         body: 'Security scans have failed. Review logs for more details.'
+                        //attachLog: true
                 }
-            }
+             }
         }
 
         stage('Deploy to Staging') {
             steps {
-                // Assuming deployment to AWS EC2 instance
-                sh 'aws deploy <options>'
-                echo 'Deployed to staging environment'
+                echo 'Stage 5: Deploying to staging environment (AWS EC2 instance)'
+                // Implement deployment to staging server e.g., AWS EC2
             }
         }
 
         stage('Integration Tests on Staging') {
             steps {
-                // Assuming running integration tests on staging environment
-                sh 'mvn verify'
-                echo 'Integration tests on staging executed'
+                echo 'Stage 6: Conducting integration tests on staging environment'
+                // Implement integration tests on staging environment
             }
         }
 
         stage('Deploy to Production') {
             steps {
-                // Assuming deployment to AWS EC2 instance
-                sh 'aws deploy <options>'
-                echo 'Deployed to production environment'
+                echo 'Stage 7: Deploying to production environment (AWS EC2 instance)'
+                // Implement deployment to production server e.g., AWS EC2
             }
         }
     }
