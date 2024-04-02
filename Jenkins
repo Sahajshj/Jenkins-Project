@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Stage 1: Building the code using Maven'
+                echo 'Stage 1: Building the code using Mavenn'
                 // Implement build automation tool e.g., Maven
             }
         }
